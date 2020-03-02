@@ -6,10 +6,11 @@ package com.example.android.miwok;
  */
 
 class Word {
-    private String mDefaultTranslation, mMiwokTranslation;
+    private final String mDefaultTranslation;
+    private final String mMiwokTranslation;
     private int mImageResourceId = NO_IMAGE_PROVIDED;
     private static final int NO_IMAGE_PROVIDED = -1;
-    private int mAudioResourceId;
+    private final int mAudioResourceId;
 
     /**
      * Primeiro método para armazenar palavra SEM imagem

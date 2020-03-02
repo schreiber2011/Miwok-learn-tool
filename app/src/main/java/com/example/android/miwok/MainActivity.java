@@ -1,66 +1,36 @@
-/*
- * Copyright (C) 2016 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.example.android.miwok;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.TextView;
+        import android.os.Bundle;
+        import android.support.design.widget.TabLayout;
+        import android.support.v4.view.ViewPager;
+        import android.support.v7.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Sete o conteúdo da activity para usar o arquivo de layout activity_main.xml
         setContentView(R.layout.activity_main);
 
-        TextView numbers = findViewById(R.id.numbers);
-        TextView family = findViewById(R.id.family);
-        TextView colors =  findViewById(R.id.colors);
-        TextView phrases = findViewById(R.id.phrases);
+        // Ache o view pager que habilitará o usuário a deslizar entre fragments
+        ViewPager viewPager = findViewById(R.id.viewpager);
 
-        numbers.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Cria uma nova intent para abrir o {@link NumbersActivity}
-                Intent i = new Intent(MainActivity.this, NumbersActivity.class);
-                startActivity(i);
-            }
-        });
-        family.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(MainActivity.this, FamilyActivity.class);
-                startActivity(i);
-            }
-        });
-        colors.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(MainActivity.this, ColorsActivity.class);
-                startActivity(i);
-            }
-        });
-        phrases.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(MainActivity.this, PhrasesActivity.class);
-                startActivity(i);
-            }
-        });
+        // Crie um adapter que saiba qual fragment deve ser mostrado em cada página
+        CategoryAdapter adapter = new CategoryAdapter(this, getSupportFragmentManager());
+
+        // Sete o adapter no view pager
+        viewPager.setAdapter(adapter);
+
+        // Ache o layout da aba que mostra as abas
+        TabLayout tabLayout = findViewById(R.id.tabs);
+
+        // Conecte o layout da aba com o view pager. Isto irá
+        //   1. Atualizar o layout da aba quando o view pager for deslizado
+        //   2. Atualizar o view pager quando uma aba for selecionada
+        //   3. Definir os nomes da aba do layout da aba com os títulos do adapter do view pager
+        //      chamando onPageTitle()
+        tabLayout.setupWithViewPager(viewPager);
     }
 }

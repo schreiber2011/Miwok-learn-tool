@@ -26,6 +26,9 @@
     <string name="category_numbers">Numbers</string>
 
     <!-- Category name for the vocabulary words for family members [CHAR LIMIT=20] -->
-    <string name="category_family">Family Members</string>
-    <string name="todo">TODO</string>
+    <string name="category_family">Family</string>
+
+    <string name="memonic_image">Memonic Image</string>
+    <string name="play_button">PLay indicator</string>
+
 </resources>

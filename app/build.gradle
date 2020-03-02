@@ -2,11 +2,12 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion "26.0.3" //ao inves de 23.0.2
+    buildToolsVersion "26.0.3"
 
     defaultConfig {
         applicationId "com.example.android.miwok"
         minSdkVersion 15
+        //noinspection OldTargetApi
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"

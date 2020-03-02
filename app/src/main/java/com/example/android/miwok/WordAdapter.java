@@ -1,7 +1,6 @@
 package com.example.android.miwok;
 
 import android.app.Activity;
-import android.media.MediaPlayer;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -18,12 +17,12 @@ import java.util.ArrayList;
  * Criado por schreiber2011 em 1/2/18.
  * Adapter para as palavras, usa
  * * {@link WordAdapter} é uma extensão da classe {@link ArrayAdapter} que gera o layout
- * para cada listItem baseado na fonte de dadosque é uma lista de objetos {@link Word}.
+ * para cada listItem baseado na fonte de dados que é uma lista de objetos {@link Word}.
  */
 
-public class WordAdapter extends ArrayAdapter<Word> {
+class WordAdapter extends ArrayAdapter<Word> {
 
-    private int mColorResourceId;
+    private final int mColorResourceId;
 
     /**
      * Cria uma novo objeto {@link WordAdapter}.
@@ -54,7 +53,7 @@ public class WordAdapter extends ArrayAdapter<Word> {
         TextView miwokTextView = listItemView.findViewById(R.id.miwok_text_view);
         miwokTextView.setText(currentWord.getmMiwokTranslation());
 
-        ImageView imageImageView = listItemView.findViewById(R.id.image_image_view);
+        ImageView imageImageView = listItemView.findViewById(R.id.memonic_image_view);
         if (currentWord.hasImage()) {
             imageImageView.setImageResource(currentWord.getmImage());
             imageImageView.setVisibility(View.VISIBLE);
