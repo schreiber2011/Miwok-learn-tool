@@ -9,9 +9,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.GridView;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -68,12 +68,7 @@ public class PhrasesFragment extends Fragment {
         }
     }
 
-    private final MediaPlayer.OnCompletionListener mCompletionListener = new MediaPlayer.OnCompletionListener() {
-        @Override
-        public void onCompletion(MediaPlayer mediaPlayer) {
-            releaseMediaPlayer();
-        }
-    };
+    private final MediaPlayer.OnCompletionListener mCompletionListener = mediaPlayer -> releaseMediaPlayer();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -81,7 +76,7 @@ public class PhrasesFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.word_list, container, false);
 
         // Create and setup the {@link AudioManager} to request audio focus
-        mAudioManager = (AudioManager) getActivity().getSystemService(Context.AUDIO_SERVICE);
+        mAudioManager = (AudioManager) Objects.requireNonNull(getActivity()).getSystemService(Context.AUDIO_SERVICE);
 
         final ArrayList<Word> words = new ArrayList<>();
 
@@ -104,27 +99,24 @@ public class PhrasesFragment extends Fragment {
         listView.setAdapter(adapter);
 
         // Set a click listener to play the audio when the list item is clicked on
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                releaseMediaPlayer();
-                // Get the {@link Word} object at the given position the user clicked on
-                Word word = words.get(position);
-                // Request audio focus so in order to play the audio file. The app needs to play a
-                // short audio file, so we will request audio focus with a short amount of time
-                // with AUDIOFOCUS_GAIN_TRANSIENT.
-                int result = mAudioManager.requestAudioFocus(mOnAudioFocusChangeListener,
-                        AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
-                if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
-                    // We have audio focus now.
-                    // Create and setup the {@link MediaPlayer} for the audio resource associated
-                    // with the current word
-                    mMediaPlayer = MediaPlayer.create(getActivity(), word.getAudioResourceId());
+        listView.setOnItemClickListener((adapterView, view, position, l) -> {
+            releaseMediaPlayer();
+            // Get the {@link Word} object at the given position the user clicked on
+            Word word = words.get(position);
+            // Request audio focus so in order to play the audio file. The app needs to play a
+            // short audio file, so we will request audio focus with a short amount of time
+            // with AUDIOFOCUS_GAIN_TRANSIENT.
+            int result = mAudioManager.requestAudioFocus(mOnAudioFocusChangeListener,
+                    AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
+            if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
+                // We have audio focus now.
+                // Create and setup the {@link MediaPlayer} for the audio resource associated
+                // with the current word
+                mMediaPlayer = MediaPlayer.create(getActivity(), word.getAudioResourceId());
 
-                    // Start the audio file
-                    mMediaPlayer.start();
-                    mMediaPlayer.setOnCompletionListener(mCompletionListener);
-                }
+                // Start the audio file
+                mMediaPlayer.start();
+                mMediaPlayer.setOnCompletionListener(mCompletionListener);
             }
         });
 
