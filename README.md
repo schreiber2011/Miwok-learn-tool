@@ -7,9 +7,10 @@ Used in a Udacity course in the Beginning Android Nanodegree.
 Pre-requisites
 --------------
 
-- Android SDK v23
-- Android Build Tools v23.0.2
-- Android Support Repository v23.3.0
+- Android SDK v34
+- Gradle distribution v8.12.1 
+- Gradle plugin v8.8.0
+- Android Support Repository v28.0.0
 
 Getting Started
 ---------------
